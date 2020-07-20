@@ -1,0 +1,59 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
+public class L10{
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        // Alphabet
+        String abc = "abcdefghijklmnopqrstuvwxyz";
+        char[] abcArray = abc.toCharArray();
+
+        ArrayList<Character> alphabet = new ArrayList<>();// list букв
+        for (char letter : abcArray) {
+            alphabet.add(letter);
+        }
+
+        // Read in strings
+        ArrayList<String> list = new ArrayList<>();//считанные строки - ArrayList
+        for (int i = 0; i < 10; i++) {
+            String s = reader.readLine();
+            list.add(s.toLowerCase());
+        }
+        
+        
+        HashMap<Character, Integer> mapChar = new HashMap<Character, Integer>();
+
+        for (int i = 0; i < alphabet.size(); i++) {
+            mapChar.put(alphabet.get(i), 0);
+        }
+
+        for (int i = 0; i < list.size(); i++) {//untill the String list ends
+            String s = list.get(i);
+            for (int j = 0; j <s.length() ; j++) {//run along the String - until the j-String ends
+                int count = 0;
+                for (int k = 0; k < alphabet.size(); k++) {//run along the alphabet 
+                    if(s.charAt(j) == alphabet.get(k)){//if the letter in the word matches some k-letter of the alphabet
+                        count++;
+                        int val = mapChar.get(alphabet.get(k));
+                        int a = val + count;
+                        mapChar.put(alphabet.get(k),a);
+                        count = 0;
+                    }
+                }
+            }
+        }
+
+//print map
+        Iterator<Map.Entry<Character, Integer>> it = mapChar.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<Character, Integer> pair = it.next();
+            char key = pair.getKey();
+            int val = pair.getValue();
+            System.out.println(key + " " + val);
+        }
+    }
+}
